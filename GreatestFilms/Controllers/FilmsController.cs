@@ -5,11 +5,11 @@ using System.Diagnostics;
 
 namespace GreatestFilms.Controllers
 {
-    public class FilmController : Controller
+    public class FilmsController : Controller
     {
         private readonly FilmContext _context;
 
-        public FilmController(FilmContext context)
+        public FilmsController(FilmContext context)
         {
             _context = context;
         }
