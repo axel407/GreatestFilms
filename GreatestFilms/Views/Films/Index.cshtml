@@ -5,8 +5,12 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
+
 @foreach (var item in Model){
     <div class="film">
         <p><img src="@Url.Content(item.Poster)"/></p>
+        <p>@Html.DisplayFor(modelItem => item.Name)</p>
+        <p>@Html.DisplayFor(modelItem => item.DirectorName)</p>
+        <p>@Html.DisplayFor(modelItem => item.Date)</p>
     </div>
 }
