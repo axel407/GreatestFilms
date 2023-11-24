@@ -45,6 +45,21 @@ namespace GreatestFilms.Controllers
             return View();
         }
 
+        //POST: Create
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Create([Bind("Id,Name,DirectorName,Genre,Date,Description,Poster")] Film film)
+        {
+            if(ModelState.IsValid)
+            {
+                _context.Add(film);
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(Index));
+            }
+            return View(film);
+        }
+
+
         //GET: Edit
         public async Task<IActionResult> Edit(int? id)
         {
@@ -57,6 +72,39 @@ namespace GreatestFilms.Controllers
             if (film == null)
             {
                 return NotFound();
+            }
+            return View(film);
+        }
+
+        //POST: Edit
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,DirectorName,Genre,Date,Description,Poster")] Film film)
+        {
+            if (id != film.Id)
+            {
+                return NotFound();
+            }
+
+            if(ModelState.IsValid)
+            {
+                try
+                {
+                    _context.Update(film);
+                    await _context.SaveChangesAsync();
+                }
+                catch(DbUpdateConcurrencyException)
+                {
+                    if (!FilmExists(film.Id))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
+                return RedirectToAction(nameof(Index));
             }
             return View(film);
         }
@@ -78,5 +126,28 @@ namespace GreatestFilms.Controllers
             return View(film);
         }
 
+        // POST: Delete
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteConfirmed(int id)
+        {
+            if (_context.Films == null)
+            {
+                return Problem("Entity set 'FilmContext.Films'  is null.");
+            }
+            var film = await _context.Films.FindAsync(id);
+            if (film != null)
+            {
+                _context.Films.Remove(film);
+            }
+
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
+        }
+
+        private bool FilmExists(int id)
+        {
+            return (_context.Films?.Any(e => e.Id == id)).GetValueOrDefault();
+        }
     }
 }
