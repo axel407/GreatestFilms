@@ -20,3 +20,23 @@ html {
 body {
   margin-bottom: 60px;
 }
+
+.film{
+    height: 375px;
+    margin: 10px;
+}
+
+.poster{
+    width: 250px;
+    float: left;
+}
+
+.text{
+    width: 800px;
+    float: right;
+}
+
+img {
+    width: 250px;
+    height: auto;
+}

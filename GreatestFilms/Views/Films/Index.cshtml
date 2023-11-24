@@ -8,9 +8,22 @@
 
 @foreach (var item in Model){
     <div class="film">
-        <p><img src="@Url.Content(item.Poster)"/></p>
-        <p>@Html.DisplayFor(modelItem => item.Name)</p>
-        <p>@Html.DisplayFor(modelItem => item.DirectorName)</p>
-        <p>@Html.DisplayFor(modelItem => item.Date)</p>
+        <div class="poster">
+            <p><img src="@Url.Content(item.Poster)"/></p>
+        </div>
+        <div class="text">
+            <p>@Html.DisplayFor(modelItem => item.Name)</p>
+            <p>Director: @Html.DisplayFor(modelItem => item.DirectorName)</p>
+            <p>Genre: @Html.DisplayFor(modelItem => item.Genre)</p>
+            <p>Realese year: @Html.DisplayFor(modelItem => item.Date)</p>
+
+
+            <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+            <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+            <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+        </div>
+
+        <p>@Html.DisplayFor(modelItem => item.Description)</p>
+        
     </div>
 }

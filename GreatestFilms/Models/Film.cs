@@ -1,5 +1,12 @@
-﻿namespace GreatestFilms.Models
+﻿using Microsoft.EntityFrameworkCore;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+using System.Data;
+using System.Data.Common;
+
+namespace GreatestFilms.Models
 {
+    [ComplexType]
     public class Film
     {
         //Film Id
@@ -13,6 +20,7 @@
         //Release date
         public string Date { get; set; }
         //Film discription
+        [MaxLength(500)]
         public string Description { get; set; }
         //Path to poster image
         public string Poster { get; set; }
