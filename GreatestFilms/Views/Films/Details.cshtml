@@ -1,0 +1,26 @@
+﻿@model GreatestFilms.Models.Film
+
+@{
+    ViewData["Title"] = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Details</h1>
+
+<div class="film">
+    <div class="poster">
+        <p><img src="@Url.Content(Model?.Poster)" /></p>
+    </div>
+    <div class="text">
+        <p>@Html.DisplayFor(model => model.Name)</p>
+        <p>Director: @Html.DisplayFor(model => model.DirectorName)</p>
+        <p>Genre: @Html.DisplayFor(model => model.Genre)</p>
+        <p>Realese year: @Html.DisplayFor(model => model.Date)</p>
+        <p>@Html.DisplayFor(model => model.Description)</p>
+        
+
+        <a asp-action="Index" asp-route-id="@Model?.Id">Back to list</a> 
+       
+    </div>
+</div>
+    
