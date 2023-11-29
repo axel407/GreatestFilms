@@ -2,16 +2,19 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Diagnostics;
+using System.IO;
 
 namespace GreatestFilms.Controllers
 {
     public class FilmsController : Controller
     {
         private readonly FilmContext _context;
+        IWebHostEnvironment _appEnvironment;
 
-        public FilmsController(FilmContext context)
+        public FilmsController(FilmContext context, IWebHostEnvironment appEnvironment)
         {
             _context = context;
+            _appEnvironment = appEnvironment;
         }
 
         public async Task<IActionResult> Index()
@@ -79,7 +82,7 @@ namespace GreatestFilms.Controllers
         //POST: Edit
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,DirectorName,Genre,Date,Description,Poster")] Film film)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,DirectorName,Genre,Date,Description,Poster")] Film film, IFormFile uploadedFile)
         {
             if (id != film.Id)
             {
@@ -90,8 +93,11 @@ namespace GreatestFilms.Controllers
             {
                 try
                 {
+                    
                     _context.Update(film);
                     await _context.SaveChangesAsync();
+                    
+                    
                 }
                 catch(DbUpdateConcurrencyException)
                 {
@@ -143,6 +149,23 @@ namespace GreatestFilms.Controllers
 
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> AddFile(IFormFile uploadedFile)
+        {
+            if (uploadedFile != null)
+            {
+
+                string path = "/Images/" + uploadedFile.FileName; 
+
+                using (var fileStream = new FileStream(_appEnvironment.WebRootPath + path, FileMode.Create))
+                {
+                    await uploadedFile.CopyToAsync(fileStream); 
+                }
+            }
+
+            return RedirectToAction(nameof(Index)); ;
         }
 
         private bool FilmExists(int id)
