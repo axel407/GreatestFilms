@@ -82,7 +82,7 @@ namespace GreatestFilms.Controllers
         //POST: Edit
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,DirectorName,Genre,Date,Description,Poster")] Film film, IFormFile uploadedFile)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,DirectorName,Genre,Date,Description,Poster")] Film film)
         {
             if (id != film.Id)
             {

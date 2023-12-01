@@ -7,33 +7,38 @@
 
 <h1>All time greatest films</h1>
 <hr/>
+<div>
+    @foreach (var item in Model){
+        <div class="film">
+            <div class="poster">
+                <p><img src="@Url.Content(item.Poster)"/></p>
+            </div>
+            <div class="text">
+                <p>@Html.DisplayFor(modelItem => item.Name)</p>
+                <p>Director: @Html.DisplayFor(modelItem => item.DirectorName)</p>
+                <p>Genre: @Html.DisplayFor(modelItem => item.Genre)</p>
+                <p>Realese year: @Html.DisplayFor(modelItem => item.Date)</p>
+                <p>@Html.DisplayFor(modelItem => item.Description)</p>
+                <hr />
 
-@foreach (var item in Model){
-    <div class="film">
-        <div class="poster">
-            <p><img src="@Url.Content(item.Poster)"/></p>
+                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+            </div>
         </div>
-        <div class="text">
-            <p>@Html.DisplayFor(modelItem => item.Name)</p>
-            <p>Director: @Html.DisplayFor(modelItem => item.DirectorName)</p>
-            <p>Genre: @Html.DisplayFor(modelItem => item.Genre)</p>
-            <p>Realese year: @Html.DisplayFor(modelItem => item.Date)</p>
-            <p>@Html.DisplayFor(modelItem => item.Description)</p>
-            <hr />
+    }
+</div>
 
-            <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-            <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-            <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-        </div>
-    </div>
-}
-<hr/>
-<h3>
-    <a asp-action="Create">Add new film</a>
-</h3>
-<hr/>
-<h3>Add new poster(не было времени придумать нормальный способ добавления постеров)</h3>
-<form asp-action="AddFile" asp-controller="Films" method="post" enctype="multipart/form-data">
-    <input type="file" name="uploadedFile" /><br>
-    <input type="submit" value="Загрузить" />
-</form>
+<div class="footer">
+    <hr />
+    <h3>
+        <a asp-action="Create">Add new film</a>
+    </h3>
+    <hr />
+    <h3>Add new poster(не было времени придумать нормальный способ добавления постеров)</h3>
+    <form asp-action="AddFile" asp-controller="Films" method="post" enctype="multipart/form-data">
+        <input type="file" name="uploadedFile" /><br>
+        <input type="submit" value="Загрузить" />
+    </form>
+</div>
+
