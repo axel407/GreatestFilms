@@ -23,7 +23,7 @@ namespace GreatestFilms.Models
         public string Genre { get; set; }
         //Release date
         [Required(ErrorMessage = "Поле должно быть установлено")]
-        [RegularExpression(@"[0-9]", ErrorMessage = "Некорректный адрес")]
+        [RegularExpression(@"^[0-9]*$", ErrorMessage = "Некорректный год")]
         public string Date { get; set; }
         //Film discription
         [MaxLength(500)]
