@@ -14,24 +14,23 @@ namespace GreatestFilms.Models
         public int Id { get; set; }
         //Film Name
         [Required(ErrorMessage = "Поле должно быть установлено")]
-        public string Name { get; set; }
+        public string? Name { get; set; }
         //Filml`s director name
         [Required(ErrorMessage = "Поле должно быть установлено")]
-        public string DirectorName { get; set; }
+        public string? DirectorName { get; set; }
         //Film genre
         [Required(ErrorMessage = "Поле должно быть установлено")]
-        public string Genre { get; set; }
+        public string? Genre { get; set; }
         //Release date
         [Required(ErrorMessage = "Поле должно быть установлено")]
         [RegularExpression(@"^[0-9]*$", ErrorMessage = "Некорректный год")]
-        public string Date { get; set; }
+        public string? Date { get; set; }
         //Film discription
         [MaxLength(500)]
         [Required(ErrorMessage = "Поле должно быть установлено")]
-        public string Description { get; set; }
+        public string? Description { get; set; }
         //Path to poster image
-        [Required(ErrorMessage = "Поле должно быть установлено")]
-        public string Poster { get; set; }
+        public string? Poster { get; set; }
 
     }
 }

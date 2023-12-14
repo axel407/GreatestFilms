@@ -51,10 +51,18 @@ namespace GreatestFilms.Controllers
         //POST: Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name,DirectorName,Genre,Date,Description,Poster")] Film film)
+        public async Task<IActionResult> Create(Film film, IFormFile uploadedFile)
         {
+            if(uploadedFile != null)
+            {
+                string path = "/Images/" + uploadedFile.FileName;
+                using (var fileStream = new FileStream(_appEnvironment.WebRootPath + path, FileMode.Create))
+                await uploadedFile.CopyToAsync(fileStream);
+                
+            }
             if(ModelState.IsValid)
             {
+                film.Poster = "/Images/" + uploadedFile.FileName;
                 _context.Add(film);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
@@ -82,18 +90,25 @@ namespace GreatestFilms.Controllers
         //POST: Edit
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,DirectorName,Genre,Date,Description,Poster")] Film film)
+        public async Task<IActionResult> Edit(int id, Film film, IFormFile uploadedFile)
         {
             if (id != film.Id)
             {
                 return NotFound();
             }
 
-            if(ModelState.IsValid)
+            if (uploadedFile != null)
+            {
+                string path = "/Images/" + uploadedFile.FileName;
+                using (var fileStream = new FileStream(_appEnvironment.WebRootPath + path, FileMode.Create))
+                await uploadedFile.CopyToAsync(fileStream);
+
+            }
+            if (ModelState.IsValid)
             {
                 try
                 {
-                    
+                    film.Poster = "/Images/" + uploadedFile.FileName;
                     _context.Update(film);
                     await _context.SaveChangesAsync();
                     
@@ -149,23 +164,6 @@ namespace GreatestFilms.Controllers
 
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
-        }
-
-        [HttpPost]
-        public async Task<IActionResult> AddFile(IFormFile uploadedFile)
-        {
-            if (uploadedFile != null)
-            {
-
-                string path = "/Images/" + uploadedFile.FileName; 
-
-                using (var fileStream = new FileStream(_appEnvironment.WebRootPath + path, FileMode.Create))
-                {
-                    await uploadedFile.CopyToAsync(fileStream); 
-                }
-            }
-
-            return RedirectToAction(nameof(Index)); ;
         }
 
         private bool FilmExists(int id)
